@@ -37,12 +37,10 @@ temporaryStudentInfo.schema={
     }
 }
 
+    
+
 
 export default new Realm({schema: [studentInfo, attendanceData,temporaryStudentInfo]});
-
-
-
-
 
 
 

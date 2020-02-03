@@ -13,6 +13,9 @@ export default class Home extends React.Component {
        constructor(props){
          super(props);
          this.state={
+          tempName:[],
+          temprollNo:[],
+          tempBranch:[]
           
          }
        }
@@ -33,36 +36,47 @@ export default class Home extends React.Component {
             </TouchableOpacity>
         )
     }
+        
+    
+
+
+
+
+
 
    dataTransfer=()=>{
      var temporaryInfo=realm.objects('tempSinfo')
-     if (temporaryInfo.length===0) {
+    
        
      
     ToastAndroid.show('loading',ToastAndroid.SHORT);
-    let tempResult = realm.objects('sInfo');
-    let testing = realm.objects('sInfo');
-              let testLength =testing.length
-              console.log(testLength)
-              let tempData=Array.from(testing)
-               
-                console.log(tempData[1].branch)
-              for (let index = 0; index <= testing.length; index++) {
-                
+    
+    
+    let permanentObject = realm.objects('sInfo')
+         console.log(permanentObject[0].name)
+        
+    
+            
+              
+
+             this.setState({permanentObject})
+             console.log(this.state.permanentObject)
+           
+             for(let i=0;i<permanentObject.length;i++){
                 realm.write(()=>{
                   realm.create('tempSinfo', {
-
-                       name:tempData[index].name ,
-                       rollNo:tempData[index].rollNo,
-                       branch:tempData[index].branch,
-                       
+                   name : permanentObject[i].name,
+             branch : permanentObject[i].branch,
+             rollNo : permanentObject[i].rollNo
                   })
                  
-                  })
-                
-              }
-    }
-    ToastAndroid.show('Not Allowed to reload',ToastAndroid.SHORT);
+                  })}
+            
+                let tempDataConsole= realm.objects('tempSinfo')
+                console.log(tempDataConsole)
+              
+    
+  
 
    }
 
@@ -78,7 +92,7 @@ export default class Home extends React.Component {
 
 
   render(){
-    var result = realm.objects('sInfo');
+    var result = realm.objects('tempSinfo');
    var finalData=Array.from(result)
 
     
@@ -176,7 +190,15 @@ export default class Home extends React.Component {
 
   <Button  
   onPress={()=>{
+    let MainData = realm.objects('sInfo');
+    
+    let tempData =realm.objects('tempSinfo')
+    console.log(tempData.length)
+  
     this.dataTransfer()
+   
+  
+  //  ToastAndroid.show('Not Allowed to reload',ToastAndroid.SHORT);
   }}
   >
     <Text>
