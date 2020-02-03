@@ -51,6 +51,12 @@ export default class Home extends React.Component {
      
     ToastAndroid.show('loading',ToastAndroid.SHORT);
     
+
+    realm.write(()=>{
+      let tempStudent =realm.objects('tempSinfo')
+    realm.delete(tempStudent);
+  
+    })
     
     let permanentObject = realm.objects('sInfo')
          console.log(permanentObject[0].name)
@@ -59,18 +65,17 @@ export default class Home extends React.Component {
              console.log(this.state.permanentObject)
            
              for(let i=0;i<permanentObject.length;i++){
-                realm.write(()=>{
-                  realm.create('tempSinfo', {
+              realm.write(()=>{
+                realm.create('tempSinfo', {
                    name : permanentObject[i].name,
              branch : permanentObject[i].branch,
              rollNo : permanentObject[i].rollNo
                   })
                  
                   })}
-            
-                let tempDataConsole= realm.objects('tempSinfo')
-                console.log(tempDataConsole)
-              
+                 
+                //   let tempDataConsole= realm.objects('tempSinfo')
+                // console.log(tempSinfo)
     
   
 
@@ -101,6 +106,8 @@ export default class Home extends React.Component {
     <View style={{flex:1,backgroundColor:'pink'}}>
     <FlatList
     data={finalData}
+    extraData={this.state.finalData}
+
     renderItem={({item})=>
   <View>
     <Card style={{flexDirection:'row',flex:1}}>
