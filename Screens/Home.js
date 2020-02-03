@@ -54,11 +54,7 @@ export default class Home extends React.Component {
     
     let permanentObject = realm.objects('sInfo')
          console.log(permanentObject[0].name)
-        
-    
-            
-              
-
+      
              this.setState({permanentObject})
              console.log(this.state.permanentObject)
            
