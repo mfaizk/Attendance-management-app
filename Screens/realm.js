@@ -30,7 +30,7 @@ temporaryStudentInfo.schema={
 
    name:'tempSinfo',
     properties: {
-        
+        id:{type:'int'},
         name: 'string',
         rollNo: 'string',
         branch: 'string'
