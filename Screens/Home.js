@@ -9,13 +9,12 @@ import Entypo from 'react-native-vector-icons/Entypo'
 
 
 
+
 export default class Home extends React.Component {
        constructor(props){
          super(props);
          this.state={
-          tempName:[],
-          temprollNo:[],
-          tempBranch:[]
+          
           
          }
        }
@@ -67,16 +66,17 @@ export default class Home extends React.Component {
              for(let i=0;i<permanentObject.length;i++){
               realm.write(()=>{
                 realm.create('tempSinfo', {
+                  id:i,
                    name : permanentObject[i].name,
              branch : permanentObject[i].branch,
              rollNo : permanentObject[i].rollNo
                   })
                  
                   })}
-                 
-                //   let tempDataConsole= realm.objects('tempSinfo')
-                // console.log(tempSinfo)
-    
+                 let temporaryDataResult=realm.objects('tempSinfo')
+                 console.log(temporaryDataResult)
+            
+           
   
 
    }
@@ -91,10 +91,39 @@ export default class Home extends React.Component {
        }
 
 
+    //  getId=(id)=>{
+    //   let primaryId=id
+    //    console.log(primaryId)
+
+    //  }
+
+
+
+       removeStudentNameFromList=(id)=>{
+          
+        let deleteElementId=id
+        console.log(typeof deleteElementId)
+        
+         let itemList=realm.objects('tempSinfo')
+         console.log( itemList[id])
+          let itemToDelete=itemList[id]
+      
+         
+
+          realm.write(()=>{
+            realm.delete(itemToDelete)
+          })
+          this.forceUpdate()
+          
+
+       }
+       
 
   render(){
     var result = realm.objects('tempSinfo');
-   var finalData=Array.from(result)
+   let finalData=Array.from(result)
+
+   
 
     
 
@@ -106,19 +135,29 @@ export default class Home extends React.Component {
     <View style={{flex:1,backgroundColor:'pink'}}>
     <FlatList
     data={finalData}
-    extraData={this.state.finalData}
+    extraData={this.state}
 
-    renderItem={({item})=>
+    renderItem={({item,index})=>
+    
   <View>
     <Card style={{flexDirection:'row',flex:1}}>
       
       <View style={styles.badge}>
+    
       <Text style={{fontSize:40}}>
         {item.name[0].toUpperCase()}
       </Text>
+      
       </View>
-
+         
       <View style={styles.infoContainer}>
+        <TouchableOpacity
+        onPress={()=>{
+          this.props.navigation.navigate('infoScreen',{
+            id:index
+          })
+        }}
+        >
         <Text style={styles.infoText}>
           {item.name}
         </Text>
@@ -128,24 +167,29 @@ export default class Home extends React.Component {
         <Text style={styles.infoText}>
           {item.rollNo}
         </Text>
-
+       </TouchableOpacity>
 
       </View>
-
+    
       
         <View style={styles.attendanceContainer}>
           
           <TouchableOpacity style={[styles.attendanceButton,{backgroundColor:this.state.presentColor}]}
           onPress={()=>{ 
            this.presentColorFunc()
-
-          }}
+              }}
           >
           <Entypo
           name='check'
           size={30}
           /></TouchableOpacity>
-             <TouchableOpacity style={styles.attendanceButton}>
+             <TouchableOpacity style={styles.attendanceButton}
+             onPress={()=>{
+               let id=index
+              this.removeStudentNameFromList(id)
+              
+             }}
+             >
           <Entypo
           name='cross'
           size={30}
@@ -160,7 +204,7 @@ export default class Home extends React.Component {
       
     </Card>
   </View>
-
+  
   }
   keyExtractor={(item,index)=>index.toString()}
     
