@@ -2,11 +2,13 @@ import {createAppContainer} from 'react-navigation'
 import {createStackNavigator } from 'react-navigation-stack'
 import Home from './Screens/Home'
 import AddDetail from './Screens/AddDetail'
+import infoScreen from './Screens/infoScreen'
 
 const MainNavigator = createStackNavigator(
   {
   Home:{screen:Home},
-  AddDetail:{screen:AddDetail}
+  AddDetail:{screen:AddDetail},
+  infoScreen:{screen:infoScreen}
 
 
   },{
