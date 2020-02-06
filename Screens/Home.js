@@ -14,27 +14,14 @@ export default class Home extends React.Component {
        constructor(props){
          super(props);
          this.state={
-          
+          date:'',
+          id:''
           
          }
        }
 
 
-       static navigationOptions={
-        headerRight:()=>(
-            <TouchableOpacity
-            onPress={()=>{
-              
-              
-            }}
-            >
-        <Entypo
-        name='cycle'
-        size={20}
-        />
-            </TouchableOpacity>
-        )
-    }
+     
         
     
 
@@ -58,10 +45,10 @@ export default class Home extends React.Component {
     })
     
     let permanentObject = realm.objects('sInfo')
-         console.log(permanentObject[0].name)
+        
       
              this.setState({permanentObject})
-             console.log(this.state.permanentObject)
+           
            
              for(let i=0;i<permanentObject.length;i++){
               realm.write(()=>{
@@ -74,20 +61,20 @@ export default class Home extends React.Component {
                  
                   })}
                  let temporaryDataResult=realm.objects('tempSinfo')
-                 console.log(temporaryDataResult)
-            
-           
-  
+               
+           this.forceUpdate()
+          
+
+   }
+   todayDate=()=>{
+   
 
    }
 
 
       
        presentColorFunc=()=>{
-         var presentColor='green'
-         this.setState({
-           presentColor:presentColor
-         })
+        
        }
 
 
@@ -101,11 +88,12 @@ export default class Home extends React.Component {
 
        removeStudentNameFromList=(id)=>{
           
+        
         let deleteElementId=id
-        console.log(typeof deleteElementId)
+        
         
          let itemList=realm.objects('tempSinfo')
-         console.log( itemList[id])
+         
           let itemToDelete=itemList[id]
       
          
@@ -132,7 +120,7 @@ export default class Home extends React.Component {
     return (
     <View style={styles.container}>
     
-    <View style={{flex:1,backgroundColor:'pink'}}>
+    <View style={{flex:1,backgroundColor:'#0A79DF'}}>
     <FlatList
     data={finalData}
     extraData={this.state}
@@ -140,7 +128,7 @@ export default class Home extends React.Component {
     renderItem={({item,index})=>
     
   <View>
-    <Card style={{flexDirection:'row',flex:1}}>
+    <Card style={styles.cardContainer}>
       
       <View style={styles.badge}>
     
@@ -159,13 +147,13 @@ export default class Home extends React.Component {
         }}
         >
         <Text style={styles.infoText}>
-          {item.name}
+        Name: {item.name}
         </Text>
         <Text>
-          {item.branch}
+          Branch: {item.branch}
         </Text>
         <Text style={styles.infoText}>
-          {item.rollNo}
+         Roll no: {item.rollNo}
         </Text>
        </TouchableOpacity>
 
@@ -174,7 +162,7 @@ export default class Home extends React.Component {
       
         <View style={styles.attendanceContainer}>
           
-          <TouchableOpacity style={[styles.attendanceButton,{backgroundColor:this.state.presentColor}]}
+          <TouchableOpacity style={styles.attendanceButton}
           onPress={()=>{ 
            this.presentColorFunc()
               }}
@@ -182,6 +170,7 @@ export default class Home extends React.Component {
           <Entypo
           name='check'
           size={30}
+          color='green'
           /></TouchableOpacity>
              <TouchableOpacity style={styles.attendanceButton}
              onPress={()=>{
@@ -193,6 +182,7 @@ export default class Home extends React.Component {
           <Entypo
           name='cross'
           size={30}
+          color='red'
           /></TouchableOpacity>
         
 
@@ -203,44 +193,56 @@ export default class Home extends React.Component {
       
       
     </Card>
+   
   </View>
   
   }
   keyExtractor={(item,index)=>index.toString()}
     
+
+
     />
+    
 
   </View>
 
+  <View style={styles.buttonView}>
+
+  <Button  style={styles.addButton}
+  
+  onPress={()=>{
+    this.props.navigation.navigate('MainDataEditLIst')
+  }}>
+    <Entypo
+    name='pencil'
+    size={40}
+    />
+  </Button>
+  
 
 
-  <View>
-      <Button
-      bordered
-      color='black'
-      rounded
-      large
-      onPress={()=>{
-          this.props.navigation.navigate('AddDetail')
-         
-          console.log(result)
-          console.log(finalData)
+ <Button style={styles.addButton}
+  onPress={()=>{
+    this.props.navigation.navigate('AddDetail')
+   
 
-      }}
-      >
-          <Text>
-              ClickMe
-          </Text>
-      
-      </Button>
+}}
+ >
+   <Entypo
+   name='plus'
+   size={40}
+   />
+  </Button>
   </View>
+
+  
 
   <Button  
   onPress={()=>{
     let MainData = realm.objects('sInfo');
     
     let tempData =realm.objects('tempSinfo')
-    console.log(tempData.length)
+   
   
     this.dataTransfer()
    
@@ -267,36 +269,44 @@ const styles = StyleSheet.create({
   badge:{
     alignItems:'center',
     justifyContent:'center',
-    borderWidth:3,
-    borderColor:'black',
-    height:55,
-    width:55,
-    borderRadius:55
+    borderWidth:2,
+    borderColor:'#3C40C6',
+    height:60,
+    width:60,
+    borderRadius:60
   },
   cardContainer:{
+    flex:1,
     flexDirection:'row',
-    height:55,
-    borderColor:'black'
+    borderRadius:10,
+    borderColor:'black',
+    height:75,
+    justifyContent:'center',
+    alignItems:'center'
+
+    
+
   },
   infoContainer:{
     flexDirection:'column',
-    borderRadius:2,
-    borderWidth:2,
+    
     borderColor:'black',
     flex:3,
     alignItems:'flex-start',
-    marginLeft:30
+    marginLeft:30,
+    
 
   },
   infoText:{
-    fontSize:15
+    fontSize:15,
+   marginBottom:4
     
 
   },
   attendanceContainer:{
     flex:2,
     flexDirection:'row',
-    borderWidth:1,
+  
     borderColor:'black',
     justifyContent:'center',
     alignContent:'center',
@@ -306,11 +316,28 @@ const styles = StyleSheet.create({
   attendanceButton:{
     flex:1,
     borderColor:'black',
-    borderWidth:1,
+    margin:10,
+   
     justifyContent:'center',
     alignContent:'center',
 
     
+  },
+  buttonView:{
+  
+   flexDirection:'row',
+   justifyContent:'space-between',
+   backfaceVisibility:'visible'
+
+    
+  },
+  addButton:{
+    width:60,
+    height:60,
+    justifyContent:'center',
+    alignItems:'center',
+    borderRadius:50
+   
   }
  
 });
