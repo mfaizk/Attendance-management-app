@@ -14,13 +14,91 @@ export default class Home extends React.Component {
        constructor(props){
          super(props);
          this.state={
-          date:'',
-          id:''
+         prevdate:0,
+         CurrentDate:''
+      
+
           
          }
        }
+    
+       UNSAFE_componentWillMount(){
+
+        const { navigation } = this.props;
+          
+        this.focusListener = navigation.addListener('willFocus', () => {
+         
+          var firstTimeDataWrite=realm.objects('tempDate')
+          if (firstTimeDataWrite.length===0) {
+            var now = new Date()
+        var CDate =now.getDate()
+      this.setState({
+        CurrentDate:CDate
+      })
+        
+            realm.write(()=>{
+             realm.create('tempDate', {
+              curDate:0,
+               counter:0
+                  
+                  
+             })
+            
+            
+             })
+     
+           }
+             
+            
+          
+         
 
 
+
+
+
+
+
+
+      var CompareData=realm.objects('tempDate')
+      var now = new Date()
+      var CDate =now.getDate()
+      var stringDateFor=CompareData[0].curDate
+      
+      var storedDate=Number(stringDateFor)
+        console.log( typeof storedDate)
+        console.log( typeof CDate)
+        console.log(CDate)
+        var datatest= realm.objects('tempDate')
+        console.log(datatest)
+
+      if (storedDate!=CDate) {
+        var CompareData=realm.objects('tempDate')
+        var now = new Date()
+        var CDate =now.getDate()
+        
+        var updateDate= realm.objects('tempDate')
+        var DataUpdater = updateDate[0]
+        console.log(DataUpdater)
+        realm.write(()=>{
+       DataUpdater.curDate=CDate
+          
+      })
+      this.forceUpdate()
+        this.dataTransfer()
+
+    } 
+           
+              
+            
+            });
+            
+           
+
+
+     
+       
+    }
      
         
     
@@ -35,7 +113,7 @@ export default class Home extends React.Component {
     
        
      
-    ToastAndroid.show('loading',ToastAndroid.SHORT);
+    ToastAndroid.show('Refreshing data for today',ToastAndroid.SHORT);
     
 
     realm.write(()=>{

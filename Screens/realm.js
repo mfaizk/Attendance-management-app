@@ -37,10 +37,16 @@ temporaryStudentInfo.schema={
     }
 }
 
-    
+class dateInfo extends Realm.Object{}
+dateInfo.schema={
+    name:'tempDate',
+    properties:{
+        curDate:{type:'int'},
+        counter:{type:'int',default:0}
+    }
+}
 
-
-export default new Realm({schema: [studentInfo, attendanceData,temporaryStudentInfo]});
+export default new Realm({schema: [studentInfo, attendanceData,temporaryStudentInfo,dateInfo]});
 
 
 
