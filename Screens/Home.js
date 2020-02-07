@@ -15,14 +15,15 @@ export default class Home extends React.Component {
          super(props);
          this.state={
          prevdate:0,
-         CurrentDate:''
+         CurrentDate:'',
+         edata:''
       
 
           
          }
        }
     
-       UNSAFE_componentWillMount(){
+      componentDidMount(){
 
         const { navigation } = this.props;
           
@@ -66,11 +67,9 @@ export default class Home extends React.Component {
       var stringDateFor=CompareData[0].curDate
       
       var storedDate=Number(stringDateFor)
-        console.log( typeof storedDate)
-        console.log( typeof CDate)
-        console.log(CDate)
+        
         var datatest= realm.objects('tempDate')
-        console.log(datatest)
+        
 
       if (storedDate!=CDate) {
         var CompareData=realm.objects('tempDate')
@@ -79,7 +78,7 @@ export default class Home extends React.Component {
         
         var updateDate= realm.objects('tempDate')
         var DataUpdater = updateDate[0]
-        console.log(DataUpdater)
+        
         realm.write(()=>{
        DataUpdater.curDate=CDate
           
@@ -88,7 +87,11 @@ export default class Home extends React.Component {
         this.dataTransfer()
 
     } 
-           
+    var result = realm.objects('tempSinfo');
+    let fData=Array.from(result)
+    this.setState({
+      edata:fData
+    })
               
             
             });
@@ -151,17 +154,44 @@ export default class Home extends React.Component {
 
 
       
-       presentColorFunc=()=>{
+       presentColorFunc=(rNUmber,index)=>{
+
+        var currentTime = new Date();
+
+        var currentOffset = currentTime.getTimezoneOffset();
         
+        var ISTOffset = 330;   // IST offset UTC +5:30 
+        
+        var ISTTime = new Date(currentTime.getTime() + (ISTOffset + currentOffset)*60000);
+        console.log(ISTTime)
+     var stringDate=ISTTime.toString()
+
+
+
+
+
+
+
+       var id=index
+        var now = new Date()
+        var CDate =now.getDate().toString()
+       var RollNo=rNUmber.toString()
+        realm.write(()=>{
+          realm.create('aData', {
+
+            date:CDate ,
+            rollNo:RollNo,
+              wholeDate:stringDate
+               
+          })
+        })
+        var data = realm.objects('aData')
+        console.log(data)
+        this.removeStudentNameFromList(id)
        }
 
 
-    //  getId=(id)=>{
-    //   let primaryId=id
-    //    console.log(primaryId)
-
-    //  }
-
+   
 
 
        removeStudentNameFromList=(id)=>{
@@ -188,7 +218,7 @@ export default class Home extends React.Component {
   render(){
     var result = realm.objects('tempSinfo');
    let finalData=Array.from(result)
-
+  
    
 
     
@@ -201,8 +231,8 @@ export default class Home extends React.Component {
     <View style={{flex:1,backgroundColor:'#0A79DF'}}>
     <FlatList
     data={finalData}
-    extraData={this.state}
-
+    extraData={this.state.edata}
+  
     renderItem={({item,index})=>
     
   <View>
@@ -241,9 +271,11 @@ export default class Home extends React.Component {
         <View style={styles.attendanceContainer}>
           
           <TouchableOpacity style={styles.attendanceButton}
-          onPress={()=>{ 
-           this.presentColorFunc()
-              }}
+          onPress={()=>{
+            let id=index
+           this.presentColorFunc(item.rollNo,id)
+           
+          }}
           >
           <Entypo
           name='check'

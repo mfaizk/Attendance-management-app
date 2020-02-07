@@ -15,7 +15,9 @@ export default class infoScreen extends React.Component{
            name:'DummyText',
            branch:'Dummybranch',
            rollNo:'DummyRolNo',
-           index:0
+           index:0,
+           
+           pCount:'0'
 
        }
    }
@@ -33,11 +35,45 @@ export default class infoScreen extends React.Component{
         </TouchableOpacity>
     )
 }
-     
+   
    
 
   
     render(){
+
+
+      //these statement are used to count the present 
+      
+        let index=this.props.navigation.getParam('id','');
+       
+        var dataToShow=realm.objects('tempSinfo')
+       var rFinalNumber=dataToShow[index].rollNo
+    
+        
+       
+       
+         
+        var presentData=realm.objects('aData')
+        let countToShowData = presentData.filtered('rollNo==$0',rFinalNumber)
+        var countData=realm.objects('aData')
+       
+        var presentCount= countToShowData.length
+        
+           
+       //here count present statement ends
+
+
+
+
+
+
+
+
+
+
+
+
+
        
         let id=this.props.navigation.getParam('id','');
       
@@ -61,7 +97,7 @@ export default class infoScreen extends React.Component{
                         Roll No: {dataToShow[id].rollNo}
                         </Text>
                         <Text style={styles.infoText}>
-                        Present Count:
+                        Present Count:{presentCount}
                         </Text>
                         <Text style={styles.infoText}>
                         Absent Count:
@@ -69,7 +105,10 @@ export default class infoScreen extends React.Component{
                </View>
               </Card>
 
-             
+              
+                 
+
+
               </View>
 
              

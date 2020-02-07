@@ -1,1 +1,2 @@
 add 24 hour timer
+perfect your design

@@ -21,7 +21,7 @@ attendanceData.schema={
     properties:{
         date:'string',
         rollNo:'string',
-    
+        wholeDate:'string'
 
     }
 }
@@ -30,7 +30,7 @@ temporaryStudentInfo.schema={
 
    name:'tempSinfo',
     properties: {
-        id:{type:'int'},
+        id:{type:'int',default:0},
         name: 'string',
         rollNo: 'string',
         branch: 'string'

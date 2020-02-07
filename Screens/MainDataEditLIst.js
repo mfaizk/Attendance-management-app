@@ -44,16 +44,40 @@ export default class MainDataEditLIst extends React.Component {
          let itemList=realm.objects('sInfo')
          
           let itemToDelete=itemList[id]
-      
-         
+         var nameToDelete=itemToDelete.name
+         var rollNoDate=itemToDelete.rollNo
+         console.log(nameToDelete)
 
           realm.write(()=>{
             realm.delete(itemToDelete)
           })
           this.forceUpdate()
+
+         
+       var tempDate=realm.objects('tempSinfo')
+
+          var filteredDate=tempDate.filtered('name=$0',nameToDelete)
+
+          realm.write(()=>{
+            realm.delete(filteredDate)
+          })
+          this.forceUpdate()
+
+          var attendanceData=realm.objects('aData')
+
+          var filteredRollNo =attendanceData.filtered('rollNo=$0',rollNoDate)
+        
+          realm.write(()=>{
+            realm.delete(filteredRollNo)
+          })
           
+          this.forceUpdate()
+
 
        }  
+     
+        
+
 
 
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View, Alert} from 'react-native';
+import {StyleSheet, Text, View, Alert,ToastAndroid} from 'react-native';
 import {Label, Input, Button} from 'native-base';
 import realm from './realm'
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -25,7 +25,11 @@ export default class App extends React.Component {
 
     addStudent = () => {
         
-      
+           if (this.state.name==null&&this.state.branch==null&&this.state.rollNo==null){
+
+            ToastAndroid.show('Please fill all fields',ToastAndroid.SHORT);
+
+           }else{
       
                  realm.write(()=>{
                    realm.create('sInfo', {
@@ -38,7 +42,18 @@ export default class App extends React.Component {
                   
                   
                    })
-                  
+                   realm.write(()=>{
+                    realm.create('tempSinfo', {
+ 
+                         name: this.state.name,
+                         rollNo: this.state.rollNo,
+                         branch:this.state.branch,
+                         
+                    })
+                   
+                   
+                    })
+                }
                 
     }
 
@@ -104,7 +119,13 @@ export default class App extends React.Component {
                         </Text>
                     </Button>
                 </View>
-               
+               <View style={styles.nextAddview}>
+                   <Button style={styles.nextAddviewButton}>
+                       <Text>
+                           Add Next
+                       </Text>
+                   </Button>
+               </View>
 
             </View>
         );
@@ -115,27 +136,38 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff'
+        backgroundColor: '#0A79DF'
     },
     input: {
         flexDirection: 'row',
-        backgroundColor: 'yellow',
+       
         alignItems: 'center'
     },
     buttonContainer: {
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'pink'
+       backfaceVisibility:'visible'
 
     },
     button: {
         height: 40,
-        width: 50,
+        width: 55,
         justifyContent: 'center',
         borderRadius: 15,
         marginTop: 20,
-        backgroundColor: '#2475B0'
-    }
+        backgroundColor: '#45CE30'
+    },
+    nextAddview:{
+         borderWidth:2,
+         justifyContent:'flex-end',
+         alignItems:'flex-end'
+
+    },
+    nextAddviewButton:{
+        height:45,
+        width:70
+
+    },
 });
 
 
