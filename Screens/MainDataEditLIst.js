@@ -63,7 +63,7 @@ export default class MainDataEditLIst extends React.Component {
           })
           this.forceUpdate()
 
-          var attendanceData=realm.objects('aData')
+          var attendanceData=realm.objects('pData')
 
           var filteredRollNo =attendanceData.filtered('rollNo=$0',rollNoDate)
         
@@ -72,6 +72,18 @@ export default class MainDataEditLIst extends React.Component {
           })
           
           this.forceUpdate()
+
+
+          var AbsentData=realm.objects('aData')
+
+          var fRollNo =AbsentData.filtered('rollNo=$0',rollNoDate)
+        
+          realm.write(()=>{
+            realm.delete(fRollNo)
+          })
+          
+          this.forceUpdate()
+
 
 
        }  

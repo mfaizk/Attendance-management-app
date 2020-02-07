@@ -14,8 +14,21 @@ studentInfo.schema={
 }
 
 
-class attendanceData extends Realm.Object {}
-attendanceData.schema={
+class PresentData extends Realm.Object {}
+PresentData.schema={
+    name:'pData',
+  
+    properties:{
+        date:'string',
+        rollNo:'string',
+        wholeDate:'string'
+
+    }
+}
+
+
+class AbsentData extends Realm.Object {}
+AbsentData.schema={
     name:'aData',
   
     properties:{
@@ -25,6 +38,10 @@ attendanceData.schema={
 
     }
 }
+
+
+
+
 class temporaryStudentInfo extends Realm.Object{}
 temporaryStudentInfo.schema={
 
@@ -46,7 +63,7 @@ dateInfo.schema={
     }
 }
 
-export default new Realm({schema: [studentInfo, attendanceData,temporaryStudentInfo,dateInfo]});
+export default new Realm({schema: [studentInfo, PresentData,temporaryStudentInfo,dateInfo,AbsentData]});
 
 
 

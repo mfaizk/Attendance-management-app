@@ -53,18 +53,23 @@ export default class infoScreen extends React.Component{
        
        
          
-        var presentData=realm.objects('aData')
+        var presentData=realm.objects('pData')
         let countToShowData = presentData.filtered('rollNo==$0',rFinalNumber)
-        var countData=realm.objects('aData')
+        
        
         var presentCount= countToShowData.length
         
            
        //here count present statement ends
 
+       //absent count
+       var AbsentData=realm.objects('aData')
+       let AbsentC = AbsentData.filtered('rollNo==$0',rFinalNumber)
+       
+      
+       var AbsenttCount= AbsentC.length
 
-
-
+       //here absent count statement end
 
 
 
@@ -100,7 +105,7 @@ export default class infoScreen extends React.Component{
                         Present Count:{presentCount}
                         </Text>
                         <Text style={styles.infoText}>
-                        Absent Count:
+                        Absent Count: {AbsenttCount}
                         </Text>
                </View>
               </Card>

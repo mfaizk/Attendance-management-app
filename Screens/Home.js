@@ -177,6 +177,68 @@ export default class Home extends React.Component {
         var CDate =now.getDate().toString()
        var RollNo=rNUmber.toString()
         realm.write(()=>{
+          realm.create('pData', {
+
+            date:CDate ,
+            rollNo:RollNo,
+              wholeDate:stringDate
+               
+          })
+        })
+        var data = realm.objects('pData')
+        console.log(data)
+
+
+
+
+        let deleteElementId=id
+        
+        
+        let itemList=realm.objects('tempSinfo')
+        
+         let itemToDelete=itemList[id]
+     
+        
+
+         realm.write(()=>{
+           realm.delete(itemToDelete)
+         })
+         this.forceUpdate()
+
+
+
+
+
+       
+       }
+
+
+   
+
+
+       removeStudentNameFromList=(rNUmber,index)=>{
+          
+        var currentTime = new Date();
+
+        var currentOffset = currentTime.getTimezoneOffset();
+        
+        var ISTOffset = 330;   // IST offset UTC +5:30 
+        
+        var ISTTime = new Date(currentTime.getTime() + (ISTOffset + currentOffset)*60000);
+        console.log(ISTTime)
+     var stringDate=ISTTime.toString()
+
+
+
+
+
+
+
+       var id=index
+        var now = new Date()
+        var CDate =now.getDate().toString()
+       var RollNo=rNUmber.toString()
+        realm.write(()=>{
           realm.create('aData', {
 
             date:CDate ,
@@ -187,15 +249,13 @@ export default class Home extends React.Component {
         })
         var data = realm.objects('aData')
         console.log(data)
-        this.removeStudentNameFromList(id)
-       }
-
 
    
 
 
-       removeStudentNameFromList=(id)=>{
-          
+
+
+
         
         let deleteElementId=id
         
@@ -285,7 +345,7 @@ export default class Home extends React.Component {
              <TouchableOpacity style={styles.attendanceButton}
              onPress={()=>{
                let id=index
-              this.removeStudentNameFromList(id)
+              this.removeStudentNameFromList(item.rollNo,id)
               
              }}
              >
