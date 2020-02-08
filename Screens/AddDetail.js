@@ -7,8 +7,11 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 
-export default class App extends React.Component {
+export default class AddDetail extends React.Component {
 
+    static navigationOptions = {
+        title: 'Add Student detail',
+      };
 
 
     constructor(props) {
@@ -30,7 +33,12 @@ export default class App extends React.Component {
             ToastAndroid.show('Please fill all fields',ToastAndroid.SHORT);
 
            }else{
-      
+               var compareObject =realm.objects('sInfo')
+               var compareRollNo=compareObject.filtered('rollNo=$0',this.state.rollNo)
+               var compareLenght=compareRollNo.length
+             if (compareLenght===0) {
+                 
+             
                  realm.write(()=>{
                    realm.create('sInfo', {
 
@@ -53,6 +61,9 @@ export default class App extends React.Component {
                    
                    
                     })
+                }else{
+                    ToastAndroid.show('Roll No already existed in data',ToastAndroid.SHORT);
+                }
                 }
                 
     }
@@ -119,13 +130,7 @@ export default class App extends React.Component {
                         </Text>
                     </Button>
                 </View>
-               <View style={styles.nextAddview}>
-                   <Button style={styles.nextAddviewButton}>
-                       <Text>
-                           Add Next
-                       </Text>
-                   </Button>
-               </View>
+               
 
             </View>
         );
@@ -157,17 +162,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
         backgroundColor: '#45CE30'
     },
-    nextAddview:{
-         borderWidth:2,
-         justifyContent:'flex-end',
-         alignItems:'flex-end'
-
-    },
-    nextAddviewButton:{
-        height:45,
-        width:70
-
-    },
+   
 });
 
 

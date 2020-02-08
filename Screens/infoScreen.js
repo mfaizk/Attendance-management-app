@@ -9,6 +9,9 @@ import EditScreen from './EditScreen'
 
 
 export default class infoScreen extends React.Component{
+  static navigationOptions = {
+    title: 'Info',
+  };
    constructor(props){
        super(props)
        this.state={
@@ -21,20 +24,7 @@ export default class infoScreen extends React.Component{
 
        }
    }
-   static navigationOptions={
-    headerRight:()=>(
-        <TouchableOpacity
-        onPress={()=>{
-           
-        }}
-        >
-    <Entypo
-    name='cycle'
-    size={20}
-    />
-        </TouchableOpacity>
-    )
-}
+   
    
    
 
@@ -72,8 +62,7 @@ export default class infoScreen extends React.Component{
        //here absent count statement end
 
 
-
-
+      
 
 
 
@@ -84,6 +73,23 @@ export default class infoScreen extends React.Component{
       
         dataToShow=realm.objects('tempSinfo')
        
+             //present list data here
+             let roll=this.props.navigation.getParam('rollNumber','');
+      var presentd=realm.objects('pData').filtered('rollNo=$0',roll)
+          //end
+
+          //Absent list data here
+         
+      var absentd=realm.objects('aData').filtered('rollNo=$0',roll)
+         //end
+
+
+
+
+
+
+
+
 
         return(
       <View style={styles.mainContainer}>
@@ -109,7 +115,46 @@ export default class infoScreen extends React.Component{
                         </Text>
                </View>
               </Card>
+              <View style={styles.presentView}>
+                <Text style={{fontSize:17,borderBottomWidth:1}}>Present List</Text>
+                <FlatList
+         data={presentd}
+         extraData={presentd}
+         renderItem={({item,index})=>
+         
+            <Card style={styles.card}>
+            <View><Text style={styles.cardText}>
+             {index+1}:   {item.wholeDate}
+                </Text></View>
 
+            </Card>
+
+        
+         }
+         keyExtractor={(item,index)=>index.toString()}
+         />
+
+
+              </View>
+              <View style={styles.absentView}>
+              <Text style={{fontSize:17,borderBottomWidth:1}}>Absent List</Text>
+              <FlatList
+         data={absentd}
+         extraData={absentd}
+         renderItem={({item,index})=>
+         
+            <Card style={styles.card}>
+            <View><Text style={styles.cardText}>
+             {index+1}:   {item.wholeDate}
+                </Text></View>
+
+            </Card>
+
+        
+         }
+         keyExtractor={(item,index)=>index.toString()}
+         />
+              </View>
               
                  
 
@@ -189,6 +234,30 @@ backfaceVisibility:'visible'
     width:60,
     borderRadius:35,
     justifyContent:'center'
+  },
+  presentView:{
+   flex:1,
+   backgroundColor:'#45CE30',
+   justifyContent:'center',
+   alignItems:'center'
+  },
+  absentView:{
+    flex:1,
+    backgroundColor:'#E44236',
+    justifyContent:'center',
+    alignItems:'center'
+
+  },
+  card:{
+   width:350,
+   height:40,
+   justifyContent:'center',
+   alignItems:'center',
+   borderRadius:60
+
+  },
+  cardText:{
+
   }
 
 

@@ -11,6 +11,9 @@ import Entypo from 'react-native-vector-icons/Entypo'
 
 
 export default class Home extends React.Component {
+  static navigationOptions = {
+    title: 'Home',
+  };
        constructor(props){
          super(props);
          this.state={
@@ -310,7 +313,9 @@ export default class Home extends React.Component {
         <TouchableOpacity
         onPress={()=>{
           this.props.navigation.navigate('infoScreen',{
-            id:index
+            id:index,
+            rollNumber:item.rollNo
+            
           })
         }}
         >
@@ -374,36 +379,39 @@ export default class Home extends React.Component {
     />
     
 
-  </View>
+<Button  style={styles.addButton}
 
-  <View style={styles.buttonView}>
-
-  <Button  style={styles.addButton}
-  
-  onPress={()=>{
-    this.props.navigation.navigate('MainDataEditLIst')
-  }}>
-    <Entypo
-    name='pencil'
-    size={40}
-    />
-  </Button>
-  
+onPress={()=>{
+  this.props.navigation.navigate('MainDataEditLIst')
+}}>
+  <Entypo
+  name='pencil'
+  size={40}
+  color='white'
+  />
+</Button>
 
 
- <Button style={styles.addButton}
-  onPress={()=>{
-    this.props.navigation.navigate('AddDetail')
-   
+
+<Button style={styles.editButton}
+onPress={()=>{
+  this.props.navigation.navigate('AddDetail')
+ 
 
 }}
- >
-   <Entypo
-   name='plus'
-   size={40}
-   />
-  </Button>
-  </View>
+>
+ <Entypo
+ name='plus'
+ size={40}
+ color='white'
+ />
+</Button>
+</View>
+    
+
+  
+
+  
 
   
 
@@ -497,16 +505,38 @@ const styles = StyleSheet.create({
   
    flexDirection:'row',
    justifyContent:'space-between',
-   backfaceVisibility:'visible'
+   
+   
 
     
   },
   addButton:{
-    width:60,
+    flex: 1,
+    position: 'absolute',
+
+    top: '90%',
+    
+    backgroundColor: '#3498DB',
     height:60,
+    width:60,
+    borderRadius:30,
     justifyContent:'center',
-    alignItems:'center',
-    borderRadius:50
+    alignItems:'center'
+   
+   
+  },
+  editButton:{
+    flex: 1,
+    position: 'absolute',
+    left: '85%',
+    top: '90%',
+    
+    backgroundColor: '#3498DB',
+    height:60,
+    width:60,
+    borderRadius:30,
+    justifyContent:'center',
+    alignItems:'center'
    
   }
  

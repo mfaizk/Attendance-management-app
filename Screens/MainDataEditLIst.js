@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View,TouchableOpacity,ToastAndroid } from 'react-native';
+import { StyleSheet, Text, View,TouchableOpacity,ToastAndroid,Alert } from 'react-native';
 import {Button, Card, CardItem} from 'native-base'
 import AddDetail from './AddDetail'
 import Realm from 'realm'
@@ -10,6 +10,9 @@ import Entypo from 'react-native-vector-icons/Entypo'
 
 
 export default class MainDataEditLIst extends React.Component {
+  static navigationOptions = {
+    title: 'Main DataBase Page',
+  };
     constructor(props){
       super(props);
       this.state={
@@ -114,15 +117,52 @@ export default class MainDataEditLIst extends React.Component {
          <View>
               <Card style={styles.card}>
                   <View style={styles.textView}>
+                      <TouchableOpacity 
+                      onPress={()=>{
+                          this.props.navigation.navigate('MainDataInfo',{
+                              id:index
+                          })
+                      }}
+                      >
                <Text>Name: {item.name}</Text>
                <Text>Branch: {item.branch}</Text>
                <Text>Roll No : {item.rollNo}</Text>
+               </TouchableOpacity>
                </View>
-
+               
                <View style={styles.buttonView} >
                    <Button style={styles.button}
+
+
+
+
+
+
+
+
                    onPress={()=>{
-                    this.PermanentDelete(index)
+                    
+                    Alert.alert(
+                        'This action will delete Student data permanently from database',
+                        'Be cautious before deleting data after this data is non-recoverable even Attendance data will be deleted',
+                        [
+                          
+                          {
+                            text: 'Cancel',
+                            onPress: () => console.log('Cancel Pressed'),
+                            style: 'cancel',
+                          },
+                          {text: 'OK', onPress: () => this.PermanentDelete(index)},
+                        ],
+                        {cancelable: false},
+                      );
+
+
+
+
+
+
+
                    }}
                    >
                        <Entypo
@@ -144,6 +184,7 @@ export default class MainDataEditLIst extends React.Component {
                        <Entypo
                        name='pencil'
                        size={25}
+                       color='white'
                        />
                    </Button>
                </View>
@@ -177,13 +218,13 @@ const styles = StyleSheet.create({
     },
     textView:{
         flex:6,
-     borderWidth:2
+     
     },
     buttonView:{
         flex:1,
         justifyContent:'center',
         alignItems:'center',
-        borderWidth:1,
+       
         margin:7
         
         

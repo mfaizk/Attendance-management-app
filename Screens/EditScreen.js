@@ -6,6 +6,9 @@ import { TextInput } from 'react-native-gesture-handler';
 
 
 export default class EditScreen extends React.Component{
+    static navigationOptions = {
+        title: 'Edit',
+      };
    constructor(props){
        super(props)
        this.state={
