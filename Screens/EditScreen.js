@@ -14,7 +14,7 @@ export default class EditScreen extends React.Component{
        this.state={
            name:'DummyName',
            branch:'DummyBranch',
-           rollNo:'DummyRollno'
+         
        }
    }
     
@@ -26,7 +26,7 @@ export default class EditScreen extends React.Component{
            this.setState({
                name:dataToEdit[id].name,
                branch:dataToEdit[id].branch,
-               rollNo:dataToEdit[id].rollNo
+               
            })
 
            save=()=>{
@@ -40,8 +40,8 @@ export default class EditScreen extends React.Component{
 
           realm.write(()=>{
               dataToEdit.name = this.state.name,
-              dataToEdit.branch= this.state.branch,
-              dataToEdit.rollNo = this.state.rollNo
+              dataToEdit.branch= this.state.branch
+             
               
           })
           this.forceUpdate()
@@ -87,16 +87,7 @@ export default class EditScreen extends React.Component{
                    </TextInput>
                </View>
 
-               <View style={styles.inputContainer}>
-                   <Text style={styles.header}>Roll no: </Text>
-                   <TextInput style={styles.textInput}
-                keyboardType='numeric'
-                onChangeText={ rollNo=>this.setState({rollNo})}
-
-                   >
-        <Text>{this.state.rollNo}</Text>
-                   </TextInput>
-               </View>
+              
                  <View style={styles.buttonContainer}>
                <Button style={styles.button}
                onPress={()=>{
@@ -120,6 +111,7 @@ export default class EditScreen extends React.Component{
 const styles= StyleSheet.create({
     mainContainer:{
       flex:1,
+      backgroundColor:'#0A79DF'
     
      
     },
@@ -132,8 +124,9 @@ const styles= StyleSheet.create({
     },
     textInput:{
         flex:1,
-        backgroundColor:'pink',
-        height:35,
+        backgroundColor:'white',
+        height:40,
+        borderRadius:20
        
 
     },
